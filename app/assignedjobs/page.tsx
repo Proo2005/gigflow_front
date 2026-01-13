@@ -36,7 +36,7 @@ export default function AssignedJobsPage() {
 
   const fetchMessages = async (email: string) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/messages/my-messages/${email}`);
+      const res = await fetch(`https://gigflow-back.onrender.com/api/messages/my-messages/${email}`);
       const data = await res.json();
       setMessages(data);
     } catch (err) {
@@ -47,7 +47,7 @@ export default function AssignedJobsPage() {
   const handleConfirm = async (id: string) => {
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:5000/api/messages/confirm/${id}`, {
+      const res = await fetch(`https://gigflow-back.onrender.com/api/messages/confirm/${id}`, {
         method: "PATCH",
       });
       const data = await res.json();

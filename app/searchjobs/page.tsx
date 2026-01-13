@@ -33,7 +33,7 @@ export default function SearchJobPage() {
 
   const fetchJobs = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/jobs");
+      const res = await fetch("https://gigflow-back.onrender.com/api/jobs");
       const data = await res.json();
       setJobs(data);
     } catch (err) {
@@ -63,7 +63,7 @@ export default function SearchJobPage() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:5000/api/messages/create", {
+      const res = await fetch("https://gigflow-back.onrender.com/api/messages/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

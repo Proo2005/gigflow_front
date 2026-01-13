@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000/api";
+const API_URL = "https://gigflow-back.onrender.com/api";
 
 export const signupUser = async (data: any) => {
   const res = await fetch(`${API_URL}/auth/signup`, {

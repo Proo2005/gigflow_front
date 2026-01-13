@@ -53,7 +53,7 @@ export default function PostJobPage() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:5000/api/jobs/create", {
+      const res = await fetch("https://gigflow-back.onrender.com/api/jobs/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
