@@ -43,6 +43,7 @@ export default function FreelancerJobsPage() {
   const fetchConfirmedJobs = async (email: string) => {
     try {
       const res = await fetch(`https://gigflow-back.onrender.com/messages/freelancer/${email}`);
+      
       const data = await res.json();
       if (!res.ok) {
         setError(data.message || "Failed to fetch jobs");
