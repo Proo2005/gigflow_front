@@ -2,6 +2,9 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Demo Video
 
+
+![Demo](./public/videos/gigflow.gif)
+
 Watch the demo video [here](./public/videos/gigflow.mp4).
 
 ## Install Dependencies
