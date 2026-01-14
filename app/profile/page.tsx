@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { useRouter } from "next/navigation"; 
 
 type User = {
   _id: string;
@@ -14,7 +15,7 @@ type User = {
 export default function ProfilePage() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-
+  const router = useRouter();
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
 
@@ -23,7 +24,16 @@ export default function ProfilePage() {
     }
 
     setLoading(false);
+
+
+    const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setUser(null);
+    router.push("/login");
+  };
   }, []);
+    
 
   if (loading) {
     return (
@@ -104,7 +114,8 @@ export default function ProfilePage() {
             Edit Profile
           </button>
 
-          <button className="px-6 py-2 rounded-lg border border-red-500 text-red-400 hover:bg-red-500 hover:text-black transition">
+          <button className="px-6 py-2 rounded-lg border border-red-500 text-red-400 hover:bg-red-500 hover:text-black transition"
+          >
             Logout
           </button>
         </div>
