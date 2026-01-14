@@ -9,6 +9,10 @@ export default function LoginPage() {
   const router = useRouter();
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
+  const [alert, setAlert] = useState<{
+    message: string;
+    type: "success" | "error" | "info";
+  } | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,16 +39,23 @@ export default function LoginPage() {
 
         // Redirect based on userType
         if (res.user.userType === "freelancer") {
-          router.push("/"); // Freelancer goes to search page
+          setAlert({
+          message: "Login Successfull",
+          type: "success",
+        });
+          router.push("/freelancerjob"); // Freelancer goes to his avialable job page
         } else {
           router.push("/post-job"); // Client goes to post-job page
         }
       } else {
-        alert(res.message || "Login failed");
+        setAlert(res.message || "Login failed");
       }
     } catch (err) {
       console.error(err);
-      alert("❌ Server error. Please try again.");
+      setAlert({
+          message: "server error",
+          type: "error",
+        });
     } finally {
       setLoading(false);
     }
