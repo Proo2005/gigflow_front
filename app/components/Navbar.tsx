@@ -14,20 +14,21 @@ export default function Navbar() {
   const pathname = usePathname();
 
   const [user, setUser] = useState<any>(null);
-  const [open, setOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [openProfile, setOpenProfile] = useState(false);
+  const [openJobs, setOpenJobs] = useState(false);
+
+  const profileRef = useRef<HTMLDivElement>(null);
+  const jobsRef = useRef<HTMLDivElement>(null);
 
   // Map routes to tab index
   const tabMap: Record<string, number> = {
     "/": 0,
-    "/search": 1,
-    "/assignedjobs": 2,
-    "/contact": 3,
+    "/searchjobs": 1,
+    "/contact": 2,
   };
 
   const [tab, setTab] = useState(tabMap[pathname] ?? 0);
 
-  // Update tab when route changes
   useEffect(() => {
     setTab(tabMap[pathname] ?? 0);
   }, [pathname]);
@@ -38,18 +39,21 @@ export default function Navbar() {
     if (storedUser) setUser(JSON.parse(storedUser));
   }, []);
 
-  // Close dropdown on outside click
+  // Close dropdowns on outside click
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
+    const handler = (e: MouseEvent) => {
       if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target as Node)
+        profileRef.current &&
+        !profileRef.current.contains(e.target as Node)
       ) {
-        setOpen(false);
+        setOpenProfile(false);
+      }
+      if (jobsRef.current && !jobsRef.current.contains(e.target as Node)) {
+        setOpenJobs(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
   const handleLogout = () => {
@@ -61,8 +65,7 @@ export default function Navbar() {
 
   const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
     setTab(newValue);
-
-    const routes = ["/", "/searchjobs", "/assignedjobs", "/contact"];
+    const routes = ["/", "/searchjobs", "/contact"];
     router.push(routes[newValue]);
   };
 
@@ -77,11 +80,10 @@ export default function Navbar() {
       </Link>
 
       {/* Tabs */}
-      <Box sx={{ minWidth: 420 }}>
+      <Box sx={{ minWidth: 420 }} className="flex items-center gap-6">
         <Tabs
           value={tab}
           onChange={handleTabChange}
-          centered
           TabIndicatorProps={{
             style: {
               backgroundColor: "#1de9b6",
@@ -94,46 +96,74 @@ export default function Navbar() {
               color: "#9e9e9e",
               fontWeight: 500,
               textTransform: "none",
-              transition: "0.3s",
             },
             "& .Mui-selected": {
               color: "#1de9b6",
-              textShadow: "0 0 10px #1de9b6",
             },
           }}
         >
           <Tab label="Home" />
           <Tab label="Search Jobs" />
-          <Tab label="Assigned Jobs" />
           <Tab label="Contact" />
         </Tabs>
+
+        {/* Jobs Dropdown */}
+        <div className="relative" ref={jobsRef}>
+          <button
+            onClick={() => setOpenJobs(!openJobs)}
+            className="text-gray-300 hover:text-[#1de9b6] font-medium"
+          >
+            Jobs ▾
+          </button>
+
+          {openJobs && (
+            <div className="absolute mt-2 w-44 bg-[#1e1e1e] border border-gray-700 rounded-lg shadow-lg z-50">
+              <button
+                onClick={() => {
+                  router.push("/freelancerjob");
+                  setOpenJobs(false);
+                }}
+                className="block w-full text-left px-4 py-2 text-gray-300 hover:bg-[#121212]"
+              >
+                Freelancer Jobs
+              </button>
+
+              <button
+                onClick={() => {
+                  router.push("/assignedjobs");
+                  setOpenJobs(false);
+                }}
+                className="block w-full text-left px-4 py-2 text-gray-300 hover:bg-[#121212]"
+              >
+                Assigned Jobs
+              </button>
+            </div>
+          )}
+        </div>
       </Box>
 
       {/* Profile Dropdown */}
-      <div className="relative" ref={dropdownRef}>
+      <div className="relative" ref={profileRef}>
         <button
-          onClick={() => setOpen(!open)}
-          className="flex items-center gap-2 text-gray-300 hover:text-[#1de9b6] font-medium"
+          onClick={() => setOpenProfile(!openProfile)}
+          className="flex items-center gap-2 text-gray-300 hover:text-[#1de9b6]"
         >
-          {user?.name || "Profile"}
-          <span className="text-sm">▾</span>
+          {user?.name || "Profile"} ▾
         </button>
 
-        {open && (
+        {openProfile && (
           <div className="absolute right-0 mt-2 w-40 bg-[#1e1e1e] border border-gray-700 rounded-lg shadow-lg z-50">
             {!user ? (
               <>
                 <Link
                   href="/login"
                   className="block px-4 py-2 text-gray-300 hover:bg-[#121212]"
-                  onClick={() => setOpen(false)}
                 >
                   Login
                 </Link>
                 <Link
                   href="/signup"
                   className="block px-4 py-2 text-gray-300 hover:bg-[#121212]"
-                  onClick={() => setOpen(false)}
                 >
                   Sign Up
                 </Link>
