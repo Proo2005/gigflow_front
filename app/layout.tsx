@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import ReflectBackground from "./components/ReflectBackground";
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -25,15 +25,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="relative min-h-screen bg-black text-white overflow-hidden">
-        <ReflectBackground
-          backdropBlurAmount="md"
-          className="fixed inset-0 z-0"
-        />
-
-        <div className="relative z-10">
-          {children}
-        </div>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        {children}
       </body>
     </html>
   );
