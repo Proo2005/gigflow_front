@@ -16,15 +16,15 @@ export default function Navbar() {
   const [user, setUser] = useState<any>(null);
   const [openProfile, setOpenProfile] = useState(false);
   const [openJobs, setOpenJobs] = useState(false);
+  const [openSettings, setOpenSettings] = useState(false);
 
   const profileRef = useRef<HTMLDivElement>(null);
   const jobsRef = useRef<HTMLDivElement>(null);
+  const settingsRef = useRef<HTMLDivElement>(null);
 
-  // Map routes to tab index
   const tabMap: Record<string, number> = {
     "/": 0,
     "/searchjobs": 1,
-    "/contact": 2,
   };
 
   const [tab, setTab] = useState(tabMap[pathname] ?? 0);
@@ -33,7 +33,6 @@ export default function Navbar() {
     setTab(tabMap[pathname] ?? 0);
   }, [pathname]);
 
-  // Load user
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) setUser(JSON.parse(storedUser));
@@ -42,16 +41,19 @@ export default function Navbar() {
   // Close dropdowns on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (
-        profileRef.current &&
-        !profileRef.current.contains(e.target as Node)
-      ) {
+      if (profileRef.current && !profileRef.current.contains(e.target as Node))
         setOpenProfile(false);
-      }
-      if (jobsRef.current && !jobsRef.current.contains(e.target as Node)) {
+
+      if (jobsRef.current && !jobsRef.current.contains(e.target as Node))
         setOpenJobs(false);
-      }
+
+      if (
+        settingsRef.current &&
+        !settingsRef.current.contains(e.target as Node)
+      )
+        setOpenSettings(false);
     };
+
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
@@ -65,7 +67,7 @@ export default function Navbar() {
 
   const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
     setTab(newValue);
-    const routes = ["/", "/searchjobs", "/contact"];
+    const routes = ["/", "/searchjobs"];
     router.push(routes[newValue]);
   };
 
@@ -79,8 +81,8 @@ export default function Navbar() {
         GigFlow
       </Link>
 
-      {/* Tabs */}
-      <Box sx={{ minWidth: 420 }} className="flex items-center gap-6">
+      {/* Tabs + Menus */}
+      <Box className="flex items-center gap-6">
         <Tabs
           value={tab}
           onChange={handleTabChange}
@@ -104,7 +106,6 @@ export default function Navbar() {
         >
           <Tab label="Home" />
           <Tab label="Search Jobs" />
-          <Tab label="Contact" />
         </Tabs>
 
         {/* Jobs Dropdown */}
@@ -140,6 +141,45 @@ export default function Navbar() {
             </div>
           )}
         </div>
+
+        {/* Settings Dropdown */}
+        <div className="relative" ref={settingsRef}>
+          <button
+            onClick={() => setOpenSettings(!openSettings)}
+            className="text-gray-300 hover:text-[#1de9b6] font-medium"
+          >
+            Settings ▾
+          </button>
+
+          {openSettings && (
+            <div className="absolute mt-2 w-44 bg-[#1e1e1e] border border-gray-700 rounded-lg shadow-lg z-50">
+              <button
+                onClick={() => router.push("/profile")}
+                className="block w-full text-left px-4 py-2 text-gray-300 hover:bg-[#121212]"
+              >
+                Profile
+              </button>
+              <button
+                onClick={() => router.push("/about")}
+                className="block w-full text-left px-4 py-2 text-gray-300 hover:bg-[#121212]"
+              >
+                About-Us
+              </button>
+              <button
+                onClick={() => router.push("/contact")}
+                className="block w-full text-left px-4 py-2 text-gray-300 hover:bg-[#121212]"
+              >
+                Contact-Us
+              </button>
+              <button
+                onClick={() => router.push("/help")}
+                className="block w-full text-left px-4 py-2 text-gray-300 hover:bg-[#121212]"
+              >
+                Help
+              </button>
+            </div>
+          )}
+        </div>
       </Box>
 
       {/* Profile Dropdown */}
@@ -148,7 +188,7 @@ export default function Navbar() {
           onClick={() => setOpenProfile(!openProfile)}
           className="flex items-center gap-2 text-gray-300 hover:text-[#1de9b6]"
         >
-          {user?.name || "Profile"} ▾
+          {user?.name || "Account"} ▾
         </button>
 
         {openProfile && (
