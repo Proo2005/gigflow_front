@@ -4,6 +4,7 @@ import { useState } from "react";
 import { loginUser } from "../utils/api";
 import { useRouter } from "next/navigation";
 import Navbar from "../components/Navbar";
+import AlertToast from "../components/AlertToast";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -40,9 +41,9 @@ export default function LoginPage() {
         // Redirect based on userType
         if (res.user.userType === "freelancer") {
           setAlert({
-          message: "Login Successfull",
-          type: "success",
-        });
+            message: "Login Successfull",
+            type: "success",
+          });
           router.push("/freelancerjob"); // Freelancer goes to his avialable job page
         } else {
           router.push("/post-job"); // Client goes to post-job page
@@ -53,9 +54,9 @@ export default function LoginPage() {
     } catch (err) {
       console.error(err);
       setAlert({
-          message: "server error",
-          type: "error",
-        });
+        message: "server error",
+        type: "error",
+      });
     } finally {
       setLoading(false);
     }
@@ -64,6 +65,13 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-[#121212]">
       <Navbar />
+      {alert && (
+        <AlertToast
+          message={alert.message}
+          type={alert.type}
+          onClose={() => setAlert(null)}
+        />
+      )}
 
       <div className="flex items-center justify-center py-20 px-4">
         <form
