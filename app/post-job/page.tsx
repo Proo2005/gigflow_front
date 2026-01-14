@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "../components/Navbar";
-
+import Footer from "../components/footer";
 type User = {
   _id: string;
   name: string;
@@ -137,6 +137,7 @@ export default function PostJobPage() {
           </button>
         </form>
       </div>
+      <Footer />
     </div>
   );
 }

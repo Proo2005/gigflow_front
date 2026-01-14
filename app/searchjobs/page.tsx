@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
-
+import Footer from "../components/footer";
 type Job = {
   _id: string;
   title: string;
@@ -129,6 +129,7 @@ export default function SearchJobPage() {
           </div>
         ))}
       </div>
+      <Footer />
     </div>
   );
 }

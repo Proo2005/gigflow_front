@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
+import Footer from "../components/footer";
 
 type Message = {
   _id: string;
@@ -109,6 +110,7 @@ export default function AssignedJobsPage() {
           </div>
         ))}
       </div>
+      <Footer/>
     </div>
   );
 }

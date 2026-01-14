@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
+import Footer from "../components/footer";
 
 type Job = {
   _id: string;
@@ -136,6 +137,7 @@ export default function FreelancerJobsPage() {
           </div>
         ))}
       </div>
+      <Footer/>
     </div>
   );
 }
