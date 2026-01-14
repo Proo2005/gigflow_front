@@ -118,6 +118,10 @@ export default function FindFreelancersPage() {
                 <span className="text-gray-400">Role:</span>{" "}
                 {selected.userType || "Freelancer"}
               </p>
+              <p>
+                <span className="text-gray-400">User contact:</span>{" "}
+                {selected.email}
+              </p>
             </div>
 
             <button

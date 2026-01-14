@@ -17,14 +17,16 @@ export default function Navbar() {
   const [openProfile, setOpenProfile] = useState(false);
   const [openJobs, setOpenJobs] = useState(false);
   const [openSettings, setOpenSettings] = useState(false);
+  const [openSearch, setOpenSearch] = useState(false); // ✅ NEW
 
   const profileRef = useRef<HTMLDivElement>(null);
   const jobsRef = useRef<HTMLDivElement>(null);
   const settingsRef = useRef<HTMLDivElement>(null);
+  const searchRef = useRef<HTMLDivElement>(null); // ✅ NEW
 
+  // Only Home tab now
   const tabMap: Record<string, number> = {
     "/": 0,
-    "/searchjobs": 1,
   };
 
   const [tab, setTab] = useState(tabMap[pathname] ?? 0);
@@ -47,11 +49,11 @@ export default function Navbar() {
       if (jobsRef.current && !jobsRef.current.contains(e.target as Node))
         setOpenJobs(false);
 
-      if (
-        settingsRef.current &&
-        !settingsRef.current.contains(e.target as Node)
-      )
+      if (settingsRef.current && !settingsRef.current.contains(e.target as Node))
         setOpenSettings(false);
+
+      if (searchRef.current && !searchRef.current.contains(e.target as Node))
+        setOpenSearch(false);
     };
 
     document.addEventListener("mousedown", handler);
@@ -67,8 +69,7 @@ export default function Navbar() {
 
   const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
     setTab(newValue);
-    const routes = ["/", "/searchjobs"];
-    router.push(routes[newValue]);
+    router.push("/");
   };
 
   return (
@@ -105,8 +106,41 @@ export default function Navbar() {
           }}
         >
           <Tab label="Home" />
-          <Tab label="Search Jobs" />
         </Tabs>
+
+        {/* 🔍 Search Dropdown */}
+        <div className="relative" ref={searchRef}>
+          <button
+            onClick={() => setOpenSearch(!openSearch)}
+            className="text-gray-300 hover:text-[#1de9b6] font-medium"
+          >
+            Search ▾
+          </button>
+
+          {openSearch && (
+            <div className="absolute mt-2 w-44 bg-[#1e1e1e] border border-gray-700 rounded-lg shadow-lg z-50">
+              <button
+                onClick={() => {
+                  router.push("/searchjobs");
+                  setOpenSearch(false);
+                }}
+                className="block w-full text-left px-4 py-2 text-gray-300 hover:bg-[#121212]"
+              >
+                Jobs
+              </button>
+
+              <button
+                onClick={() => {
+                  router.push("/findfreelancers");
+                  setOpenSearch(false);
+                }}
+                className="block w-full text-left px-4 py-2 text-gray-300 hover:bg-[#121212]"
+              >
+                Freelancers
+              </button>
+            </div>
+          )}
+        </div>
 
         {/* Jobs Dropdown */}
         <div className="relative" ref={jobsRef}>
@@ -163,13 +197,13 @@ export default function Navbar() {
                 onClick={() => router.push("/about")}
                 className="block w-full text-left px-4 py-2 text-gray-300 hover:bg-[#121212]"
               >
-                About-Us
+                About Us
               </button>
               <button
                 onClick={() => router.push("/contact")}
                 className="block w-full text-left px-4 py-2 text-gray-300 hover:bg-[#121212]"
               >
-                Contact-Us
+                Contact Us
               </button>
               <button
                 onClick={() => router.push("/help")}
