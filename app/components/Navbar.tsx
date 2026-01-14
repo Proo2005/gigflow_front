@@ -1,10 +1,9 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
-
+import { User, Link } from "@heroui/react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
@@ -218,6 +217,17 @@ export default function Navbar() {
 
       {/* Profile Dropdown */}
       <div className="relative" ref={profileRef}>
+        <User
+          avatarProps={{
+            src: "https://avatars.githubusercontent.com/u/30373425?v=4",
+          }}
+          description={
+            <Link isExternal href="https://x.com/jrgarciadev" size="sm">
+              @jrgarciadev
+            </Link>
+          }
+          name="Junior Garcia"
+        />
         <button
           onClick={() => setOpenProfile(!openProfile)}
           className="flex items-center gap-2 text-gray-300 hover:text-[#1de9b6]"
