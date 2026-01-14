@@ -52,7 +52,7 @@ export default function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/footerdetials/findfreelancer" className="hover:text-[#1de9b6] transition">
+              <Link href="/freelancerdetails" className="hover:text-[#1de9b6] transition">
                 Find Freelancers
               </Link>
             </li>
