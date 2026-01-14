@@ -104,12 +104,7 @@ export default function Navbar() {
             },
           }}
         >
-          <Link
-        href="/"
-        className="text-2xl font-bold text-[#1de9b6] hover:text-[#00bfa5]"
-      >
-        Home
-      </Link>
+          <Tab label="Home" href="/"/>
         </Tabs>
 
         {/* 🔍 Search Dropdown */}
