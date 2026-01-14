@@ -2,7 +2,10 @@
 
 import Navbar from "./components/Navbar";
 import Link from "next/link";
-import Footer from "./components/footer";
+import Footer from "./components/Footer";
+
+
+
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-[#121212] text-white">
