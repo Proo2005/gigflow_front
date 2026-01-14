@@ -3,12 +3,16 @@
 import Navbar from "./components/Navbar";
 import Link from "next/link";
 import Footer from "./components/Footer";
-
+import ReflectBackground from "./components/ReflectBackground";
 
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-[#121212] text-white">
+      <ReflectBackground
+        backdropBlurAmount="md"
+        className="fixed inset-0 z-0"
+      />
       <Navbar />
 
       {/* HERO */}
