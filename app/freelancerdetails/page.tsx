@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
+import {Snippet} from "@heroui/snippet";
 
 type Freelancer = {
   _id: string;
@@ -120,7 +121,7 @@ export default function FindFreelancersPage() {
               </p>
               <p>
                 <span className="text-gray-400">User contact:</span>{" "}
-                {selected.email}
+                <Snippet>{selected.email}</Snippet>
               </p>
             </div>
 
