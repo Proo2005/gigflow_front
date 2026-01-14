@@ -4,23 +4,25 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 Watch the demo video [here](./public/videos/gigflow.mp4).
 
-## Getting Started
+## Install Dependencies
 
-First, run the development server:
+npm install
+# or
+yarn
+# or
+pnpm install
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## .env
+
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+PORT=5000
+
+## Links
 
 Open [Frontend](https://gigflow-front-fawn.vercel.app/) with your browser to see the result.
 Open [Backend](https://gigflow-back.onrender.com) with your browser to see the result.
-
+Open [Backend Repo ](https://github.com/Proo2005/gigflow_back) check the backend.
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
