@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
 
 type User = {
   _id: string;
@@ -16,6 +16,7 @@ export default function ProfilePage() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
 
@@ -24,16 +25,15 @@ export default function ProfilePage() {
     }
 
     setLoading(false);
+  }, []);
 
-
-    const handleLogout = () => {
+  // ✅ MOVE HERE (outside useEffect)
+  const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);
     router.push("/login");
   };
-  }, []);
-    
 
   if (loading) {
     return (
@@ -78,20 +78,10 @@ export default function ProfilePage() {
               Account Information
             </h3>
             <div className="space-y-3 text-gray-300">
-              <p>
-                <span className="text-gray-400">User ID:</span> {user._id}
-              </p>
-              <p>
-                <span className="text-gray-400">Full Name:</span> {user.name}
-              </p>
-              <p>
-                <span className="text-gray-400">Email Address:</span>{" "}
-                {user.email}
-              </p>
-              <p>
-                <span className="text-gray-400">Role:</span>{" "}
-                {user.userType}
-              </p>
+              <p><span className="text-gray-400">User ID:</span> {user._id}</p>
+              <p><span className="text-gray-400">Full Name:</span> {user.name}</p>
+              <p><span className="text-gray-400">Email:</span> {user.email}</p>
+              <p><span className="text-gray-400">Role:</span> {user.userType}</p>
             </div>
           </div>
 
@@ -102,19 +92,25 @@ export default function ProfilePage() {
             <ul className="space-y-3 text-gray-300">
               <li>✔ Can post and manage jobs</li>
               <li>✔ Can send offers & messages</li>
-              <li>✔ Track job status in real time</li>
-              <li>✔ Secure JWT-based authentication</li>
+              <li>✔ Track job status</li>
+              <li>✔ Secure authentication</li>
             </ul>
           </div>
         </div>
 
         {/* Actions */}
-        <div className="mt-12 flex gap-4">
-          <button className="px-6 py-2 rounded-lg bg-[#1de9b6] text-black font-semibold hover:bg-[#00bfa5] transition">
+        <div className="mt-12 flex flex-wrap gap-4">
+          <button
+            type="button"
+            className="px-6 py-2 rounded-lg bg-[#1de9b6] text-black font-semibold hover:bg-[#00bfa5] transition"
+          >
             Edit Profile
           </button>
 
-          <button className="px-6 py-2 rounded-lg border border-red-500 text-red-400 hover:bg-red-500 hover:text-black transition"
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="px-6 py-2 rounded-lg border border-red-500 text-red-400 hover:bg-red-500 hover:text-black transition"
           >
             Logout
           </button>
