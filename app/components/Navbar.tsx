@@ -130,7 +130,7 @@ export default function Navbar() {
 
               <button
                 onClick={() => {
-                  router.push("/findfreelancers");
+                  router.push("/freelancerjob");
                   setOpenSearch(false);
                 }}
                 className="block w-full text-left px-4 py-2 text-gray-300 hover:bg-[#121212]"
