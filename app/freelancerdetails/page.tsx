@@ -2,15 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  useDisclosure,
-} from "@heroui/react";
 
 type Freelancer = {
   _id: string;
@@ -24,8 +15,6 @@ export default function FindFreelancersPage() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<Freelancer | null>(null);
-
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   useEffect(() => {
     fetchFreelancers();
@@ -48,11 +37,6 @@ export default function FindFreelancersPage() {
   const filtered = freelancers.filter((f) =>
     f.name.toLowerCase().includes(search.toLowerCase())
   );
-
-  const openProfile = (freelancer: Freelancer) => {
-    setSelected(freelancer);
-    onOpen();
-  };
 
   return (
     <div className="min-h-screen bg-[#121212] text-white">
@@ -86,8 +70,8 @@ export default function FindFreelancersPage() {
                 <p className="text-gray-400 mb-4">{f.email}</p>
 
                 <button
-                  onClick={() => openProfile(f)}
-                  className="w-full py-2 rounded-md bg-[#1de9b6] text-black font-semibold hover:bg-[#00bfa5]"
+                  onClick={() => setSelected(f)}
+                  className="w-full py-2 rounded-md bg-[#1de9b6] text-black font-semibold hover:bg-[#00bfa5] transition"
                 >
                   View Profile
                 </button>
@@ -97,55 +81,58 @@ export default function FindFreelancersPage() {
         )}
       </div>
 
-      {/* ================= HEROUI MODAL ================= */}
-      <Modal
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        backdrop="blur"
-        classNames={{
-          base: "bg-[#1e1e1e] border border-gray-700 text-white",
-        }}
-      >
-        <ModalContent>
-          {(onClose) =>
-            selected && (
-              <>
-                <ModalHeader className="flex flex-col items-center gap-2">
-                  <div className="w-24 h-24 rounded-full bg-gradient-to-r from-[#1de9b6] to-[#00bfa5] flex items-center justify-center text-3xl font-bold text-black">
-                    {selected.name.charAt(0)}
-                  </div>
-                  <span className="text-2xl">{selected.name}</span>
-                </ModalHeader>
+      {/* ================= MODAL ================= */}
+      {selected && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+          <div className="bg-[#1e1e1e] w-full max-w-md rounded-xl p-6 relative border border-gray-700">
+            
+            {/* Close */}
+            <button
+              onClick={() => setSelected(null)}
+              className="absolute top-3 right-3 text-gray-400 hover:text-white text-xl"
+            >
+              ✕
+            </button>
 
-                <ModalBody className="text-gray-300">
-                  <p>
-                    <span className="text-gray-400">Email:</span>{" "}
-                    {selected.email}
-                  </p>
-                  <p>
-                    <span className="text-gray-400">User ID:</span>{" "}
-                    {selected._id}
-                  </p>
-                  <p>
-                    <span className="text-gray-400">Role:</span>{" "}
-                    {selected.userType || "Freelancer"}
-                  </p>
-                </ModalBody>
+            {/* Avatar */}
+            <div className="flex justify-center mb-6">
+              <div className="w-24 h-24 rounded-full bg-gradient-to-r from-[#1de9b6] to-[#00bfa5] flex items-center justify-center text-3xl font-bold text-black">
+                {selected.name.charAt(0)}
+              </div>
+            </div>
 
-                <ModalFooter>
-                  <Button
-                    variant="light"
-                    color="danger"
-                    onPress={onClose}
-                  >
-                    Close
-                  </Button>
-                </ModalFooter>
-              </>
-            )
-          }
-        </ModalContent>
-      </Modal>
+            {/* Details */}
+            <h2 className="text-2xl font-bold text-center mb-2">
+              {selected.name}
+            </h2>
+            <p className="text-gray-400 text-center mb-4">
+              {selected.email}
+            </p>
+
+            <div className="space-y-3 text-gray-300">
+              <p>
+                <span className="text-gray-400">User ID:</span>{" "}
+                {selected._id}
+              </p>
+              <p>
+                <span className="text-gray-400">Role:</span>{" "}
+                {selected.userType || "Freelancer"}
+              </p>
+              <p>
+                <span className="text-gray-400">User contact:</span>{" "}
+                {selected.email}
+              </p>
+            </div>
+
+            <button
+              onClick={() => setSelected(null)}
+              className="mt-6 w-full py-2 rounded-lg bg-[#1de9b6] text-black font-semibold hover:bg-[#00bfa5]"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
