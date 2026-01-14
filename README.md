@@ -10,9 +10,9 @@ Watch the demo video [here](./public/videos/gigflow.mp4).
 ## Install Dependencies
 
 npm install
-# or
+
 yarn
-# or
+
 pnpm install
 
 ## .env

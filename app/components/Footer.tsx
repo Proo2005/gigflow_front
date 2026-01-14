@@ -87,11 +87,11 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Social + Copyright */}
+      
       <div className="border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
           
-          {/* Copyright */}
+          
           <p className="text-sm text-gray-500">
             © {new Date().getFullYear()} GigFlow. All rights reserved.
           </p>

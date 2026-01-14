@@ -20,7 +20,7 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const res = await loginUser(form); // call your API
+      const res = await loginUser(form); 
 
       if (res.token && res.user) {
         // Save token and user info in localStorage
