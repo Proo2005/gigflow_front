@@ -217,52 +217,62 @@ export default function Navbar() {
 
       {/* Profile Dropdown */}
       <div className="relative" ref={profileRef}>
-        <User
-          avatarProps={{
-            src: "https://avatars.githubusercontent.com/u/30373425?v=4",
-          }}
-          description={
-            <Link isExternal href="https://x.com/jrgarciadev" size="sm">
-              @jrgarciadev
-            </Link>
-          }
-          name="Junior Garcia"
-        />
         <button
           onClick={() => setOpenProfile(!openProfile)}
-          className="flex items-center gap-2 text-gray-300 hover:text-[#1de9b6]"
+          className="flex items-center gap-3 px-2 py-1 rounded-lg hover:bg-[#1e1e1e] transition"
         >
-          {user?.name || "Account"} ▾
+          {/* Avatar */}
+          <div className="w-9 h-9 rounded-full bg-gradient-to-r from-[#1de9b6] to-[#00bfa5] flex items-center justify-center text-black font-bold">
+            {user?.name ? user.name.charAt(0).toUpperCase() : "U"}
+          </div>
+
+          {/* Name */}
+          <span className="text-gray-300 font-medium hidden md:block">
+            {user?.name || "Account"}
+          </span>
+
+          {/* Arrow */}
+          <span className="text-gray-400">▾</span>
         </button>
 
         {openProfile && (
-          <div className="absolute right-0 mt-2 w-40 bg-[#1e1e1e] border border-gray-700 rounded-lg shadow-lg z-50">
+          <div className="absolute right-0 mt-2 w-44 bg-[#1e1e1e] border border-gray-700 rounded-xl shadow-xl z-50 overflow-hidden">
             {!user ? (
               <>
-                <Link
-                  href="/login"
-                  className="block px-4 py-2 text-gray-300 hover:bg-[#121212]"
+                <button
+                  onClick={() => router.push("/login")}
+                  className="block w-full text-left px-4 py-2 text-gray-300 hover:bg-[#121212]"
                 >
                   Login
-                </Link>
-                <Link
-                  href="/signup"
-                  className="block px-4 py-2 text-gray-300 hover:bg-[#121212]"
+                </button>
+                <button
+                  onClick={() => router.push("/signup")}
+                  className="block w-full text-left px-4 py-2 text-gray-300 hover:bg-[#121212]"
                 >
                   Sign Up
-                </Link>
+                </button>
               </>
             ) : (
-              <button
-                onClick={handleLogout}
-                className="w-full text-left px-4 py-2 text-red-400 hover:bg-[#121212]"
-              >
-                Logout
-              </button>
+              <>
+                <button
+                  onClick={() => router.push("/profile")}
+                  className="block w-full text-left px-4 py-2 text-gray-300 hover:bg-[#121212]"
+                >
+                  Profile
+                </button>
+
+                <button
+                  onClick={handleLogout}
+                  className="block w-full text-left px-4 py-2 text-red-400 hover:bg-[#121212]"
+                >
+                  Logout
+                </button>
+              </>
             )}
           </div>
         )}
       </div>
+
     </nav>
   );
 }
